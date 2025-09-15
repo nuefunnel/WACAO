@@ -32,10 +32,10 @@
 Enable these Chrome flags by visiting `chrome://flags/`:
 
 ```
-1. "Optimization Guide On Device Model" → "Enabled BypassPerfRequirement"
-2. "Prompt API for Gemini Nano" → "Enabled"
-3. "Summarization API for Gemini Nano" → "Enabled"
-4. "Language Detection API" → "Enabled"
+1. "Enables optimization guide on device" or #optimization-guide-on-device → "Enabled"
+2. "Prompt API for Gemini Nano" or #prompt-api-for-gemini-nano → "Enabled"
+3. "Summarization API for Gemini Nano" or #summarization-api-for-gemini-nano → "Enabled"
+4. "Experimental translation API" or #translation-api → "Enabled"
 5. "Translation API" → "Enabled"
 ```
 

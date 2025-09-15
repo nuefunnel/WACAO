@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "WACAO!",
   "version": "1.0.0",
-  "description": "AI-powered WhatsApp chat summarization.",
+  "description": "AI-powered WhatsApp chat summarization and translation",
   "icons": {
     "16": "icons/wacao-icon-16.png",
     "48": "icons/wacao-icon-48.png",
