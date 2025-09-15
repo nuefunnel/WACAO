@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="sidepanel.css">
+    <title>WACAO!</title>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>📱 WACAO!</h1>
+            <p class="subtitle">AI-powered summaries and translations</p>
+        </header>
+
+        <!-- Tab Navigation -->
+        <nav class="tab-nav">
+            <button id="summaryTab" class="tab-btn active" data-tab="summary">
+                📄 Summary
+            </button>
+            <button id="translatorTab" class="tab-btn" data-tab="translator">
+                🌐 Translator
+            </button>
+        </nav>
+
+        <main class="main">
+            <!-- Summary Tab Content -->
+            <div id="summaryContent" class="tab-content active">
+                <div class="controls">
+                    <label for="messageCount" class="label">
+                        Messages to summarize:
+                    </label>
+                    <select id="messageCount" class="select">
+                        <option value="20">Last 20 messages</option>
+                        <option value="50" selected>Last 50 messages</option>
+                    </select>
+                    
+                    <button id="summarizeBtn" class="btn btn-primary">
+                        🤖 Summarize Active Chat
+                    </button>
+                </div>
+
+                <div id="summaryStatus" class="status hidden"></div>
+                
+                <div id="summaryResults" class="results hidden">
+                    <h3>💡 Summary</h3>
+                    <div id="summaryText" class="summary-content"></div>
+                </div>
+                
+                <div id="summaryError" class="error hidden"></div>
+                
+                <div class="guidance-note">
+                    <p class="note-text">
+                        💡 <strong>Tip:</strong> For best results, scroll to the bottom of your WhatsApp chat (latest messages) before summarizing. This ensures the extension can access the most recent messages.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Translator Tab Content -->
+            <div id="translatorContent" class="tab-content">
+                <div class="translator-controls">
+                    <div class="control-group">
+                        <label for="baseLanguage" class="label">
+                            Your language:
+                        </label>
+                        <select id="baseLanguage" class="select">
+                            <option value="en">English</option>
+                            <option value="es">Spanish</option>
+                            <option value="fr">French</option>
+                            <option value="de">German</option>
+                            <option value="it">Italian</option>
+                            <option value="pt">Portuguese</option>
+                            <option value="ru">Russian</option>
+                            <option value="ja">Japanese</option>
+                            <option value="ko">Korean</option>
+                            <option value="zh">Chinese</option>
+                            <option value="ar">Arabic</option>
+                            <option value="hi">Hindi</option>
+                        </select>
+                    </div>
+
+                    <button id="translateLastMessage" class="btn btn-primary">
+                        🌐 Translate Last Message
+                    </button>
+                </div>
+
+                <div id="translatorStatus" class="status hidden"></div>
+                
+                <!-- Translation Result Display -->
+                <div id="translationResult" class="translation-result hidden">
+                    <h3>🔍 Translation</h3>
+                    <div class="message-item">
+                        <div class="message-header">
+                            <span class="message-sender" id="originalSender">Sender</span>
+                            <div class="message-info">
+                                <span class="language-tag detected" id="detectedLanguage">DE</span>
+                            </div>
+                        </div>
+                        <div class="message-original" id="originalMessage">Original message text</div>
+                        <div class="message-translated" id="translatedMessage">📝 Translated text</div>
+                    </div>
+                </div>
+
+                <!-- Reply Input -->
+                <div id="replySection" class="reply-section hidden">
+                    <div class="reply-input-group">
+                        <textarea id="replyInput" class="reply-textarea" 
+                                placeholder="Type your reply in English..."></textarea>
+                        <button id="sendReply" class="btn btn-send">
+                            🚀 Translate & Send
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="translatorError" class="error hidden"></div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p class="footer-text">
+                ✨ Powered by Chrome's built-in AI APIs<br>
+                🔒 All processing happens locally in your browser
+            </p>
+        </footer>
+    </div>
+
+    <script src="sidepanel.js"></script>
+</body>
+</html>

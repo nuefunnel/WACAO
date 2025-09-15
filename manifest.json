@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "WACAO!",
+  "version": "1.0.0",
+  "description": "AI-powered WhatsApp chat summarization.",
+  "icons": {
+    "16": "icons/wacao-icon-16.png",
+    "48": "icons/wacao-icon-48.png",
+    "128": "icons/wacao-icon-128.png"
+  },
+  "permissions": [
+    "sidePanel",
+    "scripting",
+    "activeTab",
+    "storage"
+  ],
+  "host_permissions": [
+    "https://web.whatsapp.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "side_panel": {
+    "default_path": "sidepanel.html"
+  },
+  "action": {
+    "title": "WACAO!"
+  }
+}
