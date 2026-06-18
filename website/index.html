@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WACAO — A private AI for your WhatsApp</title>
+<meta name="description" content="A private, on-device AI for WhatsApp Web. Summarize busy group chats and translate conversations in real time — nothing leaves your device. Powered by Chrome's built-in AI.">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --olive:#76A000;          /* exact brand green, sampled from logo */
+    --olive-deep:#5A7D00;
+    --ink:#283312;            /* warm dark olive-brown for text */
+    --ink-soft:#6E7656;
+    --cream:#FBF8EF;          /* page background */
+    --sand:#F2ECDC;           /* alternating warm panel (replaces white boxes) */
+    --honey:#E7A92E;          /* single restrained accent (not terracotta) */
+    --card:#FFFFFF;
+    --line:#E6E0CE;
+    --head:"Baloo 2",system-ui,sans-serif;
+    --body:"Plus Jakarta Sans",system-ui,sans-serif;
+    --bnd:96px;               /* section rhythm */
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--body);background:var(--cream);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+  a{color:inherit;text-decoration:none}
+  h1,h2,h3,h4{font-family:var(--head);font-weight:700;letter-spacing:-.01em;line-height:1.08}
+  .icn{width:1em;height:1em;stroke:currentColor;stroke-width:1.75;fill:none;stroke-linecap:round;stroke-linejoin:round;display:inline-block;vertical-align:-.12em}
+
+  .btn{display:inline-flex;align-items:center;gap:9px;font-family:var(--head);font-weight:600;font-size:1.02rem;
+    padding:13px 26px;border-radius:14px;transition:transform .16s,box-shadow .16s;cursor:pointer;border:0}
+  .btn:hover{transform:translateY(-2px)}
+  .btn:focus-visible{outline:3px solid var(--honey);outline-offset:3px}
+  .btn-primary{background:var(--olive);color:#fff;box-shadow:0 12px 24px -10px rgba(118,160,0,.7)}
+  .btn-ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--line)}
+  .eyebrow{font-family:var(--head);font-size:.82rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--olive-deep)}
+
+  /* hand-drawn underline lifted from the logo's brush look */
+  .brush{position:relative;white-space:nowrap}
+  .brush::after{content:"";position:absolute;left:-2%;right:-2%;bottom:-.12em;height:.32em;
+    background:var(--honey);opacity:.55;border-radius:50%;transform:rotate(-.6deg)}
+
+  /* NAV */
+  nav{position:sticky;top:0;z-index:40;background:rgba(251,248,239,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .nav-in{display:flex;align-items:center;justify-content:space-between;height:72px}
+  .logo{display:flex;align-items:center;gap:11px;font-family:var(--head);font-weight:700;font-size:1.32rem;color:var(--ink)}
+  .logo img{width:42px;height:42px;border-radius:50%;display:block}
+  .nav-links{display:flex;align-items:center;gap:30px;font-weight:600;font-size:.95rem;color:var(--ink-soft)}
+  .nav-links a:hover{color:var(--ink)}
+  .nav-links .btn{padding:9px 18px;font-size:.9rem;color:#fff}
+  @media(max-width:760px){.nav-links a:not(.btn){display:none}}
+
+  /* HERO — the signature: a hand-drawn "device boundary" wrapping the bilingual bubble */
+  .hero{padding:64px 0 var(--bnd)}
+  .device{position:relative;border-radius:30px;padding:54px 54px 58px;background:linear-gradient(180deg,#fff 0%,#FFFDF7 100%)}
+  /* doubled, slightly-offset borders echo the logo's double brush circle */
+  .device::before,.device::after{content:"";position:absolute;inset:0;border-radius:30px;pointer-events:none}
+  .device::before{border:3.2px solid var(--olive);transform:rotate(-.3deg)}
+  .device::after{border:2.6px solid var(--olive);opacity:.5;transform:rotate(.45deg) scale(1.004)}
+  .device-tag{position:absolute;top:-15px;left:42px;background:var(--cream);padding:2px 14px;border-radius:999px;
+    font-family:var(--head);font-weight:600;font-size:.82rem;color:var(--olive-deep);display:flex;align-items:center;gap:7px;z-index:2}
+  .device-tag .icn{font-size:1rem;color:var(--olive)}
+  .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:46px;align-items:center}
+  .hero h1{font-size:3.4rem;margin:14px 0 18px}
+  .hero h1 .lime{color:var(--olive)}
+  .hero p.sub{font-size:1.18rem;color:var(--ink-soft);max-width:34ch;margin-bottom:28px}
+  .cta-row{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+  .microtrust{margin-top:20px;font-size:.86rem;color:var(--ink-soft);font-weight:600;display:flex;gap:18px;flex-wrap:wrap}
+  .microtrust span{display:flex;align-items:center;gap:6px}.microtrust .icn{color:var(--olive);font-size:1rem}
+
+  /* bilingual bubble — product magic as the hero, not a screenshot */
+  .convo{display:flex;flex-direction:column;gap:14px}
+  .bub{max-width:88%;padding:13px 16px;border-radius:18px;background:#fff;box-shadow:0 6px 18px -10px rgba(40,51,18,.25);border:1px solid var(--line)}
+  .bub.me{align-self:flex-end;background:#F3F7E6;border-color:#E3EDC8}
+  .bub .lng{font-family:var(--head);font-weight:600;font-size:.7rem;letter-spacing:.06em;color:var(--olive-deep);
+    background:#EEF4DD;padding:2px 8px;border-radius:6px;display:inline-block;margin-bottom:7px}
+  .bub.me .lng{background:#fff}
+  .bub .src{font-size:.98rem;color:var(--ink)}
+  .bub .trn{font-size:.9rem;color:var(--ink-soft);margin-top:9px;padding-top:9px;border-top:1px dashed var(--line);display:flex;gap:8px;align-items:flex-start}
+  .bub .trn .icn{color:var(--honey);font-size:1rem;flex:none;margin-top:.15em}
+  .reveal{animation:rise .6s cubic-bezier(.2,.7,.2,1) both}
+  .reveal.d1{animation-delay:.15s}.reveal.d2{animation-delay:.45s}.reveal.d3{animation-delay:.75s}
+  @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  @media(prefers-reduced-motion:reduce){.reveal{animation:none}}
+  @media(max-width:880px){.hero-grid{grid-template-columns:1fr;gap:34px}.hero h1{font-size:2.5rem}.device{padding:40px 26px 44px}}
+
+  /* PRIVACY BAND — full-width sand, no box */
+  .band{background:var(--sand)}
+  .privacy{padding:var(--bnd) 0;text-align:center}
+  .privacy h2{font-size:2.1rem;max-width:20ch;margin:14px auto 14px}
+  .privacy p{color:var(--ink-soft);font-size:1.1rem;max-width:60ch;margin:0 auto}
+  .privacy .picon{width:60px;height:60px;color:var(--olive);margin:0 auto}
+
+  /* FEATURES — no card borders, no emoji squares; clean icon + framed shot */
+  .section{padding:var(--bnd) 0}
+  .heading{text-align:center;max-width:640px;margin:0 auto 56px}
+  .heading h2{font-size:2.3rem;margin:12px 0}
+  .heading p{color:var(--ink-soft);font-size:1.1rem}
+  .feat{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+  .feat + .feat{margin-top:84px}
+  .feat.flip .feat-copy{order:2}
+  .ficon{width:38px;height:38px;color:var(--olive)}
+  .feat-copy h3{font-size:1.8rem;margin:16px 0 6px}
+  .feat-copy .quote{font-family:var(--head);font-weight:600;color:var(--olive-deep);font-size:1.12rem;margin-bottom:14px}
+  .feat-copy p{color:var(--ink-soft);font-size:1.05rem;margin-bottom:16px}
+  .flist{list-style:none}
+  .flist li{display:flex;gap:11px;align-items:center;font-weight:600;margin:10px 0}
+  .flist .icn{color:var(--olive);font-size:1.15rem;flex:none}
+  .shot{border-radius:20px;overflow:hidden;box-shadow:0 26px 60px -28px rgba(40,51,18,.4);border:1px solid var(--line);background:#fff}
+  .shot .bar{display:flex;gap:7px;padding:12px 15px;border-bottom:1px solid var(--line)}
+  .shot .bar i{width:11px;height:11px;border-radius:50%;background:#E3E0D2}
+  .shot img{display:block;width:100%}
+  @media(max-width:880px){.feat{grid-template-columns:1fr;gap:26px}.feat.flip .feat-copy{order:0}.feat + .feat{margin-top:60px}}
+
+  /* HOW — a real sequence, so numbering is earned. De-boxed: number + brush, on cream */
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:40px}
+  .step{position:relative;padding-top:8px}
+  .step .num{font-family:var(--head);font-weight:700;font-size:1.5rem;color:var(--olive);
+    width:48px;height:48px;border-radius:50%;display:grid;place-items:center;background:#fff;box-shadow:inset 0 0 0 2px var(--olive);margin-bottom:16px}
+  .step h4{font-size:1.2rem;margin-bottom:6px}
+  .step p{color:var(--ink-soft);font-size:.97rem}
+  .setup-note{margin-top:48px;display:flex;gap:11px;align-items:flex-start;justify-content:center;
+    color:var(--ink-soft);font-size:.95rem}
+  .setup-note .icn{color:var(--olive);font-size:1.2rem;flex:none;margin-top:.1em}
+  @media(max-width:760px){.steps{grid-template-columns:1fr;gap:30px}}
+
+  /* WHO — light columns, top brush rule, no boxes */
+  .who{display:grid;grid-template-columns:repeat(3,1fr);gap:38px}
+  .who-col{padding-top:22px;border-top:3px solid var(--olive);position:relative}
+  .who-col .icn{font-size:2rem;color:var(--olive)}
+  .who-col h4{margin:14px 0 7px;font-size:1.2rem}
+  .who-col p{color:var(--ink-soft);font-size:.98rem}
+  @media(max-width:760px){.who{grid-template-columns:1fr;gap:28px}}
+
+  /* FINAL — full-bleed olive band (fixes the cramped white-box complaint) */
+  .final{background:var(--olive);color:#fff;text-align:center;padding:104px 0}
+  .final img{width:84px;height:84px;border-radius:50%;margin-bottom:22px;box-shadow:0 0 0 6px rgba(255,255,255,.15)}
+  .final h2{font-size:2.5rem;margin-bottom:12px}
+  .final p{font-size:1.15rem;opacity:.92;margin-bottom:30px}
+  .final .btn-primary{background:#fff;color:var(--olive-deep);box-shadow:0 14px 30px -12px rgba(0,0,0,.4)}
+  .final .btn-primary:focus-visible{outline-color:#fff}
+
+  /* FOOTER */
+  footer{padding:40px 0;background:var(--ink);color:#C9CDB8}
+  .foot-in{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;font-size:.9rem}
+  .foot-in .logo{color:#fff}
+  .byline{font-family:var(--head);font-weight:600;color:#F2EFE2}
+  .byline a{color:#fff;position:relative;white-space:nowrap}
+  .byline a::after{content:"";position:absolute;left:-5%;right:-5%;bottom:-.06em;height:.32em;background:var(--honey);opacity:.85;border-radius:50%;transform:rotate(-.8deg)}
+  .byline a:hover{color:var(--honey)}
+</style>
+</head>
+<body>
+
+<!-- ICON SPRITE (consistent line set — replaces all emoji) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 2.5 15 0 18M12 3c-2.5 2.5-2.5 15 0 18"/></symbol>
+  <symbol id="i-summary" viewBox="0 0 24 24"><path d="M5 6h14M5 11h14M5 16h8"/><path d="M18.5 15.5l1.4 1.4 2.1-2.6"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2.5"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6"/></symbol>
+  <symbol id="i-translate" viewBox="0 0 24 24"><path d="M5 7h7M8.5 7c0 4-2 7-4.5 8.5"/><path d="M6 10.5c1.5 2 3.5 3.2 5.5 3.8"/><path d="M13 20l4-9 4 9M14.5 17h5"/></symbol>
+  <symbol id="i-house" viewBox="0 0 24 24"><path d="M4 11l8-6 8 6"/><path d="M6 10v9h12v-9"/><path d="M10 19v-5h4v5"/></symbol>
+  <symbol id="i-people" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3.5 19a5.5 5.5 0 0 1 11 0"/><path d="M16 6.2a3 3 0 0 1 0 5.6M17.5 13.5a5.5 5.5 0 0 1 3 5"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-9.5A3.8 3.8 0 0 1 12 7a3.8 3.8 0 0 1 7 3.5C19 15.6 12 20 12 20z"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+</svg>
+
+<nav>
+  <div class="wrap nav-in">
+    <div class="logo"><img src="assets/wacao-logo.webp" alt=""> WACAO</div>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#how">How it works</a>
+      <a href="#who">Who it's for</a>
+      <a href="#" class="btn btn-primary"><svg class="icn"><use href="#i-plus"/></svg> Add to Chrome</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="wrap">
+    <div class="device">
+      <span class="device-tag"><svg class="icn"><use href="#i-lock"/></svg> Everything here stays on your device</span>
+      <div class="hero-grid">
+        <div>
+          <span class="eyebrow">On-device AI for WhatsApp Web</span>
+          <h1>A private AI for your <span class="lime brush">WhatsApp</span>.</h1>
+          <p class="sub">Summarize the noise and chat across languages in real time — without a single message leaving your laptop.</p>
+          <div class="cta-row">
+            <a href="#" class="btn btn-primary"><svg class="icn"><use href="#i-plus"/></svg> Add to Chrome — free</a>
+            <a href="#how" class="btn btn-ghost">See how it works</a>
+          </div>
+          <div class="microtrust">
+            <span><svg class="icn"><use href="#i-check"/></svg> No servers</span>
+            <span><svg class="icn"><use href="#i-check"/></svg> No API keys</span>
+            <span><svg class="icn"><use href="#i-check"/></svg> No data collection</span>
+          </div>
+        </div>
+        <div class="convo" aria-label="Example translated conversation">
+          <div class="bub reveal d1">
+            <span class="lng">GUEST · DE</span>
+            <div class="src">Können wir um 14 Uhr einchecken?</div>
+            <div class="trn"><svg class="icn"><use href="#i-translate"/></svg> Can we check in at 2pm?</div>
+          </div>
+          <div class="bub me reveal d2">
+            <span class="lng">YOU · EN</span>
+            <div class="src">Of course — 2pm works perfectly!</div>
+            <div class="trn"><svg class="icn"><use href="#i-translate"/></svg> Natürlich — 14 Uhr passt perfekt!</div>
+          </div>
+          <div class="bub reveal d3">
+            <span class="lng">GUEST · DE</span>
+            <div class="src">Super, danke! 🙏</div>
+            <div class="trn"><svg class="icn"><use href="#i-translate"/></svg> Great, thank you!</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- PRIVACY BAND -->
+<section class="band">
+  <div class="wrap privacy">
+    <svg class="icn picon"><use href="#i-lock"/></svg>
+    <h2>Your messages never leave your device.</h2>
+    <p>WACAO runs entirely on Chrome's built-in AI (Gemini Nano). No cloud, no account, no API keys — and no network call after setup. The AI reads your chats right where they live.</p>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="section" id="features">
+  <div class="wrap">
+    <div class="heading">
+      <span class="eyebrow">What it does</span>
+      <h2>Cut the noise. Cross the language gap.</h2>
+      <p>No bloated feature list — just the parts of WhatsApp that actually eat your time.</p>
+    </div>
+
+    <div class="feat">
+      <div class="feat-copy">
+        <svg class="icn ficon"><use href="#i-globe"/></svg>
+        <h3>Talk to anyone, in any language</h3>
+        <div class="quote">“Chat in any language, instantly.”</div>
+        <p>Built for Airbnb hosts and anyone chatting across a language barrier. Incoming messages are translated for you, and your replies go out in their language — right inside WhatsApp Web.</p>
+        <ul class="flist">
+          <li><svg class="icn"><use href="#i-check"/></svg> Auto-detects the sender's language</li>
+          <li><svg class="icn"><use href="#i-check"/></svg> Translate &amp; send replies in one click</li>
+          <li><svg class="icn"><use href="#i-check"/></svg> 12+ languages supported</li>
+        </ul>
+      </div>
+      <div class="shot"><div class="bar"><i></i><i></i><i></i></div><img src="assets/screenshot-translate.jpg" alt="WACAO translating a German message inside WhatsApp Web"></div>
+    </div>
+
+    <div class="feat flip">
+      <div class="feat-copy">
+        <svg class="icn ficon"><use href="#i-summary"/></svg>
+        <h3>Catch up on a chaotic group in seconds</h3>
+        <div class="quote">“Catch up in seconds, not hours.”</div>
+        <p>Came back to 200 unread messages? Get the key points, decisions, and to-dos from any chat without scrolling through the noise.</p>
+        <ul class="flist">
+          <li><svg class="icn"><use href="#i-check"/></svg> Summarize the last 20 or 50 messages</li>
+          <li><svg class="icn"><use href="#i-check"/></svg> Surfaces decisions &amp; action items</li>
+          <li><svg class="icn"><use href="#i-check"/></svg> Works on any chat or group</li>
+        </ul>
+      </div>
+      <div class="shot"><div class="bar"><i></i><i></i><i></i></div><img src="assets/screenshot-summary.jpg" alt="WACAO summarizing a WhatsApp group chat"></div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW -->
+<section class="band">
+  <div class="wrap section" id="how">
+    <div class="heading"><span class="eyebrow">Setup in 2 minutes</span><h2>How it works</h2></div>
+    <div class="steps">
+      <div class="step"><div class="num">1</div><h4>Add to Chrome</h4><p>Install the free extension from the Chrome Web Store. No sign-up, no account.</p></div>
+      <div class="step"><div class="num">2</div><h4>Open WhatsApp Web</h4><p>Head to web.whatsapp.com and open any chat or group you want help with.</p></div>
+      <div class="step"><div class="num">3</div><h4>Open the WACAO panel</h4><p>Click the icon to slide out the side panel, then translate or summarize.</p></div>
+    </div>
+    <div class="setup-note"><svg class="icn"><use href="#i-gear"/></svg> <span><strong>Requires Chrome 138+</strong> with on-device AI enabled. WACAO walks you through the one-time setup on first launch.</span></div>
+  </div>
+</section>
+
+<!-- WHO -->
+<section class="section" id="who">
+  <div class="wrap">
+    <div class="heading"><span class="eyebrow">Made for</span><h2>Who's it for?</h2></div>
+    <div class="who">
+      <div class="who-col"><svg class="icn"><use href="#i-house"/></svg><h4>Airbnb &amp; short-stay hosts</h4><p>Chat naturally with guests from anywhere, in their own language.</p></div>
+      <div class="who-col"><svg class="icn"><use href="#i-heart"/></svg><h4>Cross-language friendships</h4><p>Stay close to the people who don't share your native tongue.</p></div>
+      <div class="who-col"><svg class="icn"><use href="#i-people"/></svg><h4>Busy group admins</h4><p>Stay on top of loud family, work, and community groups.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL -->
+<section class="final">
+  <div class="wrap">
+    <img src="assets/wacao-logo.webp" alt="">
+    <h2>Bring a private AI to your WhatsApp.</h2>
+    <p>Free, on-device, and nothing leaves your laptop.</p>
+    <a href="#" class="btn btn-primary"><svg class="icn"><use href="#i-plus"/></svg> Add to Chrome</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-in">
+    <div class="logo"><img src="assets/wacao-logo.webp" alt="" style="width:34px;height:34px"> WACAO</div>
+    <p class="byline">A product by <a href="https://nuefunnel.com">nuefunnel</a></p>
+    <div>© 2026</div>
+  </div>
+</footer>
+
+</body>
+</html>
