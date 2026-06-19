@@ -16,7 +16,8 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
-const FONT_DIR = join(HERE, '..', 'assets', 'fonts');
+// Scripts live at repo-root scripts/; the site is the sibling website/ dir.
+const FONT_DIR = join(HERE, '..', 'website', 'assets', 'fonts');
 
 // Must mirror the families/weights the page actually uses (see index.html).
 const CSS_URL =

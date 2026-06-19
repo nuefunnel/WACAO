@@ -15,15 +15,17 @@ website/
 ├── apple-touch-icon.png   # 180, full badge
 ├── icon-192.png           # PWA / Android (any maskable)
 ├── icon-512.png
-├── assets/
-│   ├── wacao-logo.webp
-│   ├── og-image.jpg       # 1200×630 social share card
-│   ├── screenshot-translate.jpg
-│   └── screenshot-summary.jpg
-└── scripts/               # on-demand asset generators (not run at deploy)
-    ├── generate-og-image.{sh,mjs}
-    └── generate-favicons.mjs
+└── assets/
+    ├── wacao-logo.webp
+    ├── og-image.jpg       # 1200×630 social share card
+    ├── screenshot-translate.jpg
+    ├── screenshot-summary.jpg
+    └── fonts/             # self-hosted brand fonts (woff2) + generated fonts.css
 ```
+
+Asset generators live at repo-root `scripts/` (one level up) — deliberately
+outside `website/` so Cloudflare never deploys them. They write into
+`website/assets/` and the favicon files here.
 
 ## Regenerating brand assets
 
@@ -31,8 +33,9 @@ The favicon set and OG card are committed static files. Regenerate on demand
 (requires `rsvg-convert` + `node`; the OG wrapper also fetches the brand fonts):
 
 ```bash
-cd website
+# run from the repo root (one level up from website/)
 node scripts/generate-favicons.mjs       # favicons + manifest from favicon*.svg
+node scripts/generate-fonts.mjs          # self-hosted brand fonts + fonts.css
 bash scripts/generate-og-image.sh        # assets/og-image.jpg
 ```
 

@@ -8,6 +8,8 @@
 #   bash scripts/generate-og-image.sh
 #
 set -euo pipefail
+# Scripts live at repo-root scripts/; cd to the repo root so paths below reach
+# both website/ (assets) and scripts/ (the generator).
 cd "$(dirname "$0")/.."
 
 FONTDIR=/tmp/wacao-fonts
@@ -32,5 +34,5 @@ EOF
 export FONTCONFIG_FILE="$FONTDIR/fonts.conf"
 fc-cache -f "$FONTDIR" >/dev/null 2>&1
 
-sips -s format png assets/wacao-logo.webp --out /tmp/wacao-logo.png >/dev/null
+sips -s format png website/assets/wacao-logo.webp --out /tmp/wacao-logo.png >/dev/null
 node scripts/generate-og-image.mjs

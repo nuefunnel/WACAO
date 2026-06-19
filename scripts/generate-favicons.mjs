@@ -22,7 +22,8 @@ import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
-const root = join(dirname(fileURLToPath(import.meta.url)), '..');
+// Scripts live at repo-root scripts/; assets are written into the sibling website/ dir.
+const root = join(dirname(fileURLToPath(import.meta.url)), '..', 'website');
 // Full badge (wordmark + tagline) for large icons; the cropped mask mark for
 // small icons, where the full badge's text is illegible.
 const BADGE = join(root, 'favicon.svg');

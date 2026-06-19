@@ -31,5 +31,5 @@ yarn-error.log*
 *.tmp
 *.temp
 
-# Generated OG-image intermediate (regenerate via website/scripts/generate-og-image.sh)
-website/scripts/og-image.svg
+# Generated OG-image intermediate (regenerate via scripts/generate-og-image.sh)
+scripts/og-image.svg

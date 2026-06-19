@@ -17,7 +17,8 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
 const here = dirname(fileURLToPath(import.meta.url));
-const root = join(here, '..');
+// Scripts live at repo-root scripts/; the site is the sibling website/ dir.
+const root = join(here, '..', 'website');
 const W = 1200, H = 630;
 
 // Brand tokens (sampled from index.html :root)
@@ -75,7 +76,7 @@ const svg = `<?xml version="1.0" encoding="UTF-8"?>
   <text x="118" y="550" font-family="Baloo 2" font-weight="600" font-size="24" fill="${ink}">wacao.in</text>
 </svg>`;
 
-const svgPath = join(root, 'scripts', 'og-image.svg');
+const svgPath = join(here, 'og-image.svg');
 const pngPath = '/tmp/wacao-og.png';
 const outPath = join(root, 'assets', 'og-image.jpg');
 
