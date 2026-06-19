@@ -1,8 +1,9 @@
 # Cloudflare Pages security headers.
-# CSP is in REPORT-ONLY first (blocks nothing, logs violations). Watch the console
-# in Incognito on the live site; once clean, rename the header to
-# `Content-Security-Policy` (drop `-Report-Only`) to enforce — that also activates
-# upgrade-insecure-requests + frame-ancestors, which are ignored in report-only.
+# CSP is ENFORCED (verified clean in report-only first, console was clean on
+# wacao.pages.dev 2026-06-19). The browser now refuses forbidden loads, and
+# upgrade-insecure-requests + frame-ancestors are active. If you add new external
+# resources (e.g. enabling Cloudflare Web Analytics needs static.cloudflareinsights.com
+# in script-src + cloudflareinsights.com in connect-src), re-test in report-only first.
 
 /*
   X-Frame-Options: DENY
@@ -11,4 +12,4 @@
   Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=(), usb=()
   Cross-Origin-Opener-Policy: same-origin
   Strict-Transport-Security: max-age=31536000; includeSubDomains
-  Content-Security-Policy-Report-Only: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self'; connect-src 'self'; object-src 'none'; frame-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self'; connect-src 'self'; object-src 'none'; frame-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests
