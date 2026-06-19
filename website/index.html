@@ -205,7 +205,7 @@
       <a href="#features">Features</a>
       <a href="#how">How it works</a>
       <a href="#who">Who it's for</a>
-      <a href="#" class="btn btn-primary"><svg class="icn"><use href="#i-plus"/></svg> Add to Chrome</a>
+      <a href="https://chromewebstore.google.com/detail/wacao/ieceknabaoidknogbcnjofffpaffekmj" target="_blank" rel="noopener" class="btn btn-primary"><svg class="icn"><use href="#i-plus"/></svg> Add to Chrome</a>
     </div>
   </div>
 </nav>
@@ -221,7 +221,7 @@
           <h1>A private AI for your <span class="lime brush">WhatsApp</span>.</h1>
           <p class="sub">Summarize the noise and chat across languages in real time — without a single message leaving your laptop.</p>
           <div class="cta-row">
-            <a href="#" class="btn btn-primary"><svg class="icn"><use href="#i-plus"/></svg> Add to Chrome — free</a>
+            <a href="https://chromewebstore.google.com/detail/wacao/ieceknabaoidknogbcnjofffpaffekmj" target="_blank" rel="noopener" class="btn btn-primary"><svg class="icn"><use href="#i-plus"/></svg> Add to Chrome — free</a>
             <a href="#how" class="btn btn-ghost">See how it works</a>
           </div>
           <div class="microtrust">
@@ -333,17 +333,59 @@
     <img src="assets/wacao-logo.webp" alt="">
     <h2>Bring a private AI to your WhatsApp.</h2>
     <p>Free, on-device, and nothing leaves your laptop.</p>
-    <a href="#" class="btn btn-primary"><svg class="icn"><use href="#i-plus"/></svg> Add to Chrome</a>
+    <a href="https://chromewebstore.google.com/detail/wacao/ieceknabaoidknogbcnjofffpaffekmj" target="_blank" rel="noopener" class="btn btn-primary"><svg class="icn"><use href="#i-plus"/></svg> Add to Chrome</a>
   </div>
 </section>
 
 <footer>
   <div class="wrap foot-in">
     <div class="logo"><img src="assets/wacao-logo.webp" alt="" style="width:34px;height:34px"> WACAO</div>
-    <p class="byline">A product by <a href="https://nuefunnel.com">nuefunnel</a></p>
+    <p class="byline">A product by <a href="https://www.nuefunnel.com/">nuefunnel</a></p>
     <div>© 2026</div>
   </div>
 </footer>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://wacao.in/#organization",
+      "name": "WACAO",
+      "url": "https://wacao.in/",
+      "logo": "https://wacao.in/icon-512.png",
+      "description": "A private, on-device AI for WhatsApp Web — summarize busy group chats and translate conversations in real time, with nothing leaving your device.",
+      "parentOrganization": { "@id": "https://www.nuefunnel.com/#organization" }
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://www.nuefunnel.com/#organization",
+      "name": "nuefunnel",
+      "url": "https://www.nuefunnel.com/",
+      "subOrganization": { "@id": "https://wacao.in/#organization" },
+      "owns": { "@id": "https://wacao.in/#software" }
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://wacao.in/#software",
+      "name": "WACAO",
+      "url": "https://wacao.in/",
+      "applicationCategory": "BrowserApplication",
+      "operatingSystem": "Chrome",
+      "installUrl": "https://chromewebstore.google.com/detail/wacao/ieceknabaoidknogbcnjofffpaffekmj",
+      "description": "On-device AI for WhatsApp Web that summarizes busy group chats and translates conversations in real time. Powered by Chrome's built-in AI — nothing leaves the browser.",
+      "image": "https://wacao.in/assets/og-image.jpg",
+      "publisher": { "@id": "https://wacao.in/#organization" },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+  ]
+}
+</script>
 
 </body>
 </html>
