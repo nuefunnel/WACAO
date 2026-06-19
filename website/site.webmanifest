@@ -1,0 +1,23 @@
+{
+  "name": "WACAO",
+  "short_name": "WACAO",
+  "description": "A private, on-device AI for WhatsApp Web — summarize and translate chats without anything leaving your browser.",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "theme_color": "#76A000",
+  "background_color": "#FBF8EF",
+  "display": "standalone",
+  "start_url": "/"
+}
